@@ -1,5 +1,10 @@
-NativeClient-DotNet
-===================
+---
+services: active-directory
+platforms: dotnet
+author: dstrockis
+---
+
+# Integrating Azure AD into a Windows desktop application
 
 This sample demonstrates a .Net WPF application calling a web API that is secured using Azure AD. The .Net application uses the Active Directory Authentication Library (ADAL) to obtain a JWT access token through the OAuth 2.0 protocol. The access token is sent to the web API to authenticate the user.
 
@@ -12,13 +17,13 @@ To run this sample you will need:
 - An Internet connection
 - An Azure subscription (a free trial is sufficient)
 
-Every Azure subscription has an associated Azure Active Directory tenant.  If you don't already have an Azure subscription, you can get a free subscription by signing up at [http://wwww.windowsazure.com](http://www.windowsazure.com).  All of the Azure AD features used by this sample are available free of charge.
+Every Azure subscription has an associated Azure Active Directory tenant.  If you don't already have an Azure subscription, you can get a free subscription by signing up at [https://azure.microsoft.com](https://azure.microsoft.com).  All of the Azure AD features used by this sample are available free of charge.
 
 ### Step 1:  Clone or download this repository
 
 From your shell or command line:
 
-`git clone git@github.com:AzureADSamples/NativeClient-DotNet.git`
+`git clone https://github.com/Azure-Samples/active-directory-dotnet-native-client.git`
 
 ### Step 2:  Create a user account in your Azure Active Directory tenant
 
@@ -41,32 +46,6 @@ There are two projects in this sample.  Each needs to be separately registered i
 9. For the App ID URI, enter `https://<your_tenant_name>/TodoListService`, replacing `<your_tenant_name>` with the name of your Azure AD tenant.  Click OK to complete the registration.
 10. While still in the Azure portal, click the Configure tab of your application.
 11. Find the Client ID value and copy it aside, you will need this later when configuring your application.
-12. Using the Manage Manifest button in the drawer, download the manifest file for the application.
-13. Add a permission to the application by replacing the appPermissions section with the block of JSON below.  You will need to create a new GUID and replace the example permissionId GUID.
-14. Using the Manage Manfiest button, upload the updated manifest file.  Save the configuration of the app.
-
-```JSON
-"appPermissions": [
-{
-	"claimValue": "user_impersonation",
-	"description": "Allow full access to the To Do List service on behalf of the signed-in user",
-	"directAccessGrantTypes": [],
-	"displayName": "Have full access to the To Do List service",
-	"impersonationAccessGrantTypes": [
-		{
-			"impersonated": "User",
-		    "impersonator": "Application"
-		}
-	],
-	"isDisabled": false,
-	"origin": "Application",
-	"permissionId": "b69ee3c9-c40d-4f2a-ac80-961cd1534e40",
-	"resourceScopeType": "Personal",
-	"userConsentDescription": "Allow full access to the To Do service on your behalf",
-	"userConsentDisplayName": "Have full access to the To Do service"
-	}
-],
-```
 
 #### Register the TodoListClient app
 
@@ -80,7 +59,7 @@ There are two projects in this sample.  Each needs to be separately registered i
 8. For the Redirect URI, enter `http://TodoListClient`.  Click finish.
 9. Click the Configure tab of the application.
 10. Find the Client ID value and copy it aside, you will need this later when configuring your application.
-11. In "Permissions to Other Applications", select the TodoListService, and request the delegated permission "Have full access to the To Do List service".  Save the configuration.
+11. In "Permissions to Other Applications", click "Add Application."  Select "Other" in the "Show" dropdown, and click the upper check mark.  Locate & click on the TodoListService, and click the bottom check mark to add the application.  Select "Access TodoListService" from the "Delegated Permissions" dropdown, and save the configuration.
 
 ### Step 4:  Configure the sample to use your Azure AD tenant
 
@@ -97,7 +76,7 @@ There are two projects in this sample.  Each needs to be separately registered i
 2. Find the app key `ida:Tenant` and replace the value with your AAD tenant name.
 3. Find the app key `ida:ClientId` and replace the value with the Client ID for the TodoListClient from the Azure portal.
 4. Find the app key `ida:RedirectUri` and replace the value with the Redirect URI for the TodoListClient from the Azure portal, for example `http://TodoListClient`.
-5. Find the app key `todo:TodoListResourceId` and replace the value with the  App ID URI of the TodoListService, for example `https://<your_tenant_name>/TodoListService`
+5. Find the app key `todo:TodoListResourceId` and replace the value with the App ID URI of the TodoListService, for example `https://<your_tenant_name>/TodoListService`
 6. Find the app key `todo:TodoListBaseAddress` and replace the value with the base address of the TodoListService project.
 
 ### Step 5:  Trust the IIS Express SSL certificate
@@ -190,7 +169,7 @@ First, in Visual Studio 2013 create an empty solution to host the  projects.  Th
 ### Creating the TodoListClient Project
 
 1. In the solution, create a new Windows --> WPF Application called TodoListClient.
-2. Add the (prerelease) Active Directory Authentication Library (ADAL) NuGet, Microsoft.IdentityModel.Clients.ActiveDirectory, version 2.6.0-alpha (or higher) to the project.
+2. Add the (stable release) Active Directory Authentication Library (ADAL) NuGet, Microsoft.IdentityModel.Clients.ActiveDirectory to the project.
 3. Add  assembly references to `System.Net.Http`, `System.Web.Extensions`, `System.Security`, and `System.Configuration`.
 4. Add a new class to the project called `TodoItem.cs`.  Copy the code from the sample project file of same name into this class, completely replacing the code in the file in the new project.
 5. Add a new class to the project called `FileCache.cs`.  Copy the code from the sample project file of same name into this class, completely replacing the code in the file in the new project.
